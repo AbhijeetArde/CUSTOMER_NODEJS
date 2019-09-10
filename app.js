@@ -34,12 +34,8 @@ const getVisits = (idd) => {
 };
 
 app.get('/getCustomers', async (req, res, next) => {
-  // Create a visit record to be stored in the database
-  
-  
   const visit = {
     timestamp: new Date(),
-    // Store a hash of the visitor's ip address
     userIp: crypto
       .createHash('sha256')
       .update(req.ip)
@@ -49,7 +45,6 @@ app.get('/getCustomers', async (req, res, next) => {
   };
 
   try {
-    //await insertVisit(visit);
 	const idd =req.query.idd
     const [entities] = await getVisits(idd);
     const visits = entities.map(
