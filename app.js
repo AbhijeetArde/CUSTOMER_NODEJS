@@ -21,21 +21,23 @@ const insertVisit = visit => {
 };
 
 
-const getVisits = (idd) => {
-	idd = idd || ""
-  const query = datastore
-    .createQuery('Customername')
-    .order('customername', {descending: true})
-    .limit(10);
-	if (idd != ""){
-	query.filter('customername', '=', idd)
-	}
+const getVisits = (id) => {
+	id = id || ""
+	const query = datastore.createQuery('Customername');
+	const selectq = query.order('Id', {descending: true}).limit(10);
+	if (id != ""){
+		query.filter('Id', '=', id)
+		}
   return datastore.runQuery(query);
 };
 
 app.get('/getCustomers', async (req, res, next) => {
+  // Create a visit record to be stored in the database
+  
+  
   const visit = {
     timestamp: new Date(),
+    // Store a hash of the visitor's ip address
     userIp: crypto
       .createHash('sha256')
       .update(req.ip)
@@ -45,15 +47,14 @@ app.get('/getCustomers', async (req, res, next) => {
   };
 
   try {
-	const idd =req.query.idd
-    const [entities] = await getVisits(idd);
-    const visits = entities.map(
-      entity => `Customername: ${entity.customername}`
-    );
+    //await insertVisit(visit);
+	const id =req.query.id
+    const [customer_data] = await getVisits(id);
+    //const customers = customer_data.map(entity => customer_data[entity.customername] = customer_data[entity.Id]);
     res
       .status(200)
       .set('Content-Type', 'text/plain')
-      .send(`${visits.join('\n')}`)
+      .json({customer_data})
       .end();
   } catch (error) {
     next(error);
