@@ -2,4 +2,4 @@ SAMPLE USAGE ENDPOINT:
 
 https://ikea-nodejs-fun.appspot.com/getCustomers
 
-https://ikea-nodejs-fun.appspot.com/getCustomers?idd=Ben
+http://localhost:8080/getCustomers?id=3
