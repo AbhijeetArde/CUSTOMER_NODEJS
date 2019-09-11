@@ -13,7 +13,7 @@ const {Datastore} = require('@google-cloud/datastore');
 const datastore = new Datastore();
 
 
-const insertVisit = visit => {
+const insertCust = visit => {
   return datastore.save({
     key: datastore.key('Customername'),
     data: visit,
@@ -32,28 +32,15 @@ const getVisits = (id) => {
 };
 
 app.get('/getCustomers', async (req, res, next) => {
-  // Create a visit record to be stored in the database
   
-  
-  const visit = {
-    timestamp: new Date(),
-    // Store a hash of the visitor's ip address
-    userIp: crypto
-      .createHash('sha256')
-      .update(req.ip)
-      .digest('hex')
-      .substr(0, 7),
-	customername: "Chris"
-  };
-
   try {
-    //await insertVisit(visit);
+    //await insertCust(cust);
 	const id =req.query.id
     const [customer_data] = await getVisits(id);
     //const customers = customer_data.map(entity => customer_data[entity.customername] = customer_data[entity.Id]);
     res
       .status(200)
-      .set('Content-Type', 'text/plain')
+      .set('Content-Type', 'application/json')
       .json({customer_data})
       .end();
   } catch (error) {
