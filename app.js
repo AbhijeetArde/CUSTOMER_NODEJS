@@ -14,9 +14,9 @@ const getCustomers = (id) => {
         descending: true
     }).limit(10);
     if (id != "") {
-        query.filter('Id', '=', id)
+        selectq.filter('Id', '=', id)
     }
-    return datastore.runQuery(query);
+    return datastore.runQuery(selectq);
 };
 
 app.get('/getCustomers', async (req, res, next) => {
@@ -43,5 +43,3 @@ app.listen(process.env.PORT || 8080, () => {
     console.log(`App listening on port ${PORT}`);
     console.log('Press Ctrl+C to quit.');
 });
-
-module.exports = app;
